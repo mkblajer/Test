@@ -47,18 +47,20 @@ jobs:
   
               const reviewers = new Set(reviews.map(r => r.user.login));
               const authors = new Set(commits.map(c => c.author.login));
-  
+
+              console.log("reviewers number is ${reviewers.size}")
+              
               // check if there's only one reviewer and it's also the author of a commit
               if (reviewers.size < 2 && [...reviewers][0] && authors.has([...reviewers][0])) {
                 // check if there are no reviews
-                if (reviewers.size === 0){
+                if (reviewers.size == 0){
                   console.log("This PR is not reviewed.");
                 }
                 
                 // Filter out authors of the PR
                 const availableReviewers = reviewerPool.filter(u => !authors.has(u));
   
-                if (availableReviewers.length === 0) {
+                if (availableReviewers.length == 0) {
                   console.log("No available reviewers to assign.");
                 } else {
                   const selectedReviewer = availableReviewers[Math.floor(Math.random() * availableReviewers.length)];
