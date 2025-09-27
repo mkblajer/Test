@@ -51,10 +51,6 @@ jobs:
   
               const reviewers = new Set(reviews.map(r => r.user.login));
               const authors = new Set(commits.map(c => c.author.login));
-
-              console.log(authors)
-              console.log(reviewers)
-              console.log(`reviewers number is ${reviewers.size}`)
               
               // check if there's only one reviewer and it's also the author of a commit
               if ((reviewers.size == 1 && [...reviewers][0] && authors.has([...reviewers][0])) || (reviewers.size == 0)) {
@@ -65,10 +61,12 @@ jobs:
                 }
                 
                 // Filter out authors of the PR
-                const availableReviewers = reviewerPool.filter(u => !authors.has(u));
+                const prAuthor = context.payload.pull_request.user.login;
+
+                const availableReviewers = reviewerPool.filter(u => u !== prAuthor && !authors.has(u));
   
                 if (availableReviewers.length == 0) {
-                  console.log("No available reviewers to assign.");
+                  console.log("No eligible reviewers left. Cannot assign automatically.");
                 } else {
                   const selectedReviewer = availableReviewers[Math.floor(Math.random() * availableReviewers.length)];
   
@@ -97,11 +95,12 @@ jobs:
                   });
   
                   console.log(`Assigned @${selectedReviewer} for post-merge review.`);
-
-                  // fail this check
-                  const core = require('@actions/core');
-                  core.setFailed("This PR is improperly reviewed.");
                 }
+                
+                // fail self-reviewed check
+                  const core = require('@actions/core');
+                  core.setFailed("This PR is not reviewed or self-reviewed.");
+                  
               } else {
                 console.log("PR is not self-reviewed.");
               
