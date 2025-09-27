@@ -23,13 +23,25 @@ jobs:
             // check if merged
             const pr = context.payload.pull_request;
             if (pr.merged) {
+              
+              // --------------------------------------------------
               // List of allowed reviewers
-              // format: "login"
+              // Input: "login"
               const reviewerPool = ["mkblajer", "max-golubev"];
   
               // labels that are added in case a PR is deemed self-reviewed
               const labelsList = ["self-reviewed"]
-  
+              
+              // message displayed in case the PR is self reviewed
+              const srMessage = `This is automated message:\n
+              It seems that this pull request is self-reviewed\n
+              @${selectedReviewer}, please perform a post-merge review`
+
+              // message displayed in case the PR is not reviewed
+              const nrMessage = `This is automated message:\n
+              It seems that this pull request is not reviewed\n
+              @${selectedReviewer}, please perform a post-merge review`
+              
               // --------------------------------------------------
                 
               // get pull request number
@@ -74,12 +86,21 @@ jobs:
                   });
   
                   // comment describing the issue
+                  if (reviews.size == 0){
                   await github.rest.issues.createComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: prNumber,
-                    body: `This is automated message:\nIt seems that this pull request is self-reviewed or not reviewed at all\n @${selectedReviewer}, please perform a post-merge review`
-                  });
+                    body: nrMessage
+                    });
+                  } else{
+                    await github.rest.issues.createComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: prNumber,
+                      body: srMessage
+                    });
+                  }
   
                   // add labels
                   await github.rest.issues.addLabels({
