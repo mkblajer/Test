@@ -33,14 +33,10 @@ jobs:
               const labelsList = ["self-reviewed"]
               
               // message displayed in case the PR is self reviewed
-              const srMessage = `This is automated message:\n
-              It seems that this pull request is self-reviewed\n
-              @${selectedReviewer}, please perform a post-merge review`
+              const srMessage = `It seems that this pull request is self-reviewed\n`
 
               // message displayed in case the PR is not reviewed
-              const nrMessage = `This is automated message:\n
-              It seems that this pull request is not reviewed\n
-              @${selectedReviewer}, please perform a post-merge review`
+              const nrMessage = `It seems that this pull request is not reviewed\n`
               
               // --------------------------------------------------
                 
@@ -91,14 +87,14 @@ jobs:
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: prNumber,
-                    body: nrMessage
+                    body: `This is automated message:\n` + nrMessage + `@${selectedReviewer}, please perform a post-merge review`
                     });
                   } else{
                     await github.rest.issues.createComment({
                       owner: context.repo.owner,
                       repo: context.repo.repo,
                       issue_number: prNumber,
-                      body: srMessage
+                      body: `This is automated message:\n` + srMessage + `@${selectedReviewer}, please perform a post-merge review`
                     });
                   }
   
