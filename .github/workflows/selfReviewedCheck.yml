@@ -110,6 +110,7 @@ jobs:
                 }
                 
                 // fail self-reviewed check
+                console.log(reviews.size)
                 if (reviews.size == 0){
                   console.log("This PR is not reviewed.");
                   core.setFailed("This PR is not reviewed");
