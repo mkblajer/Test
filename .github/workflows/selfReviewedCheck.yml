@@ -31,14 +31,14 @@ jobs:
               // get pull request number
               const prNumber = context.payload.pull_request.number;
   
-              // get data section of all reviews
+              // get data of all reviews
               const { data: reviews } = await github.rest.pulls.listReviews({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: prNumber
               });
   
-              // get data section of all commits
+              // get data of all commits
               const { data: commits } = await github.rest.pulls.listCommits({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
