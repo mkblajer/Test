@@ -2,7 +2,7 @@ name: Self-Reviewed PR Check
 
 on:
   pull_request:
-    types: [opened, ready_for_review, reopened, synchronize]
+    types: [closed]
 
 jobs:
   self_review_check:
@@ -16,76 +16,81 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-
-            // List of allowed reviewers
-            // format: "login"
-            const reviewerPool = ["mkblajer", "max-golubev"];
-
-            // labels that are added in case a PR is deemed self-reviewed
-            const labelsList = ["self-reviewed"]
-
-            // --------------------------------------------------
-              
-            // get pull request number
-            const prNumber = context.payload.pull_request.number;
-
-            // get data section of all reviews
-            const { data: reviews } = await github.rest.pulls.listReviews({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: prNumber
-            });
-
-            // get data section of all commits
-            const { data: commits } = await github.rest.pulls.listCommits({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: prNumber
-            });
-
-            const reviewers = new Set(reviews.map(r => r.user.login));
-            const authors = new Set(commits.map(c => c.author.login));
-
-            // check if there's only one reviewer and it's also the author of a commit
-            if (reviewers.size === 1 && [...reviewers][0] && authors.has([...reviewers][0])) {
-              
-              console.log("This is a self-reviewed PR.");
-              
-              // Filter out authors of the PR
-              const availableReviewers = reviewerPool.filter(u => !authors.has(u));
-
-              if (availableReviewers.length === 0) {
-                console.log("No available reviewers to assign.");
-              } else {
-                const selectedReviewer = availableReviewers[Math.floor(Math.random() * availableReviewers.length)];
-
-                // request reviewer
-                await github.rest.pulls.requestReviewers({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  pull_number: prNumber,
-                  reviewers: [selectedReviewer]
-                });
-
-                // comment describing the issue
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: prNumber,
-                  body: `This is automated message:\nIt seems that this pull request is self-reviewed\n @${selectedReviewer}, please perform a post-merge review`
-                });
-
-                // add labels
-                await github.rest.issues.addLabels({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: prNumber,
-                  labels: labelsList
-                });
-
-                console.log(`Assigned @${selectedReviewer} for post-merge review.`);
+            // check if merged
+            const pr = context.payload.pull_request;
+            if (pr.merged) {
+              // List of allowed reviewers
+              // format: "login"
+              const reviewerPool = ["mkblajer", "max-golubev"];
+  
+              // labels that are added in case a PR is deemed self-reviewed
+              const labelsList = ["self-reviewed"]
+  
+              // --------------------------------------------------
                 
+              // get pull request number
+              const prNumber = context.payload.pull_request.number;
+  
+              // get data section of all reviews
+              const { data: reviews } = await github.rest.pulls.listReviews({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber
+              });
+  
+              // get data section of all commits
+              const { data: commits } = await github.rest.pulls.listCommits({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber
+              });
+  
+              const reviewers = new Set(reviews.map(r => r.user.login));
+              const authors = new Set(commits.map(c => c.author.login));
+  
+              // check if there's only one reviewer and it's also the author of a commit
+              if (reviewers.size === 1 && [...reviewers][0] && authors.has([...reviewers][0])) {
+                
+                console.log("This is a self-reviewed PR.");
+                
+                // Filter out authors of the PR
+                const availableReviewers = reviewerPool.filter(u => !authors.has(u));
+  
+                if (availableReviewers.length === 0) {
+                  console.log("No available reviewers to assign.");
+                } else {
+                  const selectedReviewer = availableReviewers[Math.floor(Math.random() * availableReviewers.length)];
+  
+                  // request reviewer
+                  await github.rest.pulls.requestReviewers({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    pull_number: prNumber,
+                    reviewers: [selectedReviewer]
+                  });
+  
+                  // comment describing the issue
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: prNumber,
+                    body: `This is automated message:\nIt seems that this pull request is self-reviewed\n @${selectedReviewer}, please perform a post-merge review`
+                  });
+  
+                  // add labels
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: prNumber,
+                    labels: labelsList
+                  });
+  
+                  console.log(`Assigned @${selectedReviewer} for post-merge review.`);
+                  
+                }
+              } else {
+                console.log("PR is not self-reviewed.");
+              
               }
-            } else {
-              console.log("PR is not self-reviewed.");
             }
+            
