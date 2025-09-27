@@ -98,7 +98,6 @@ jobs:
                 }
                 
                 // fail self-reviewed check
-                  const core = require('@actions/core');
                   core.setFailed("This PR is not reviewed or self-reviewed.");
                   
               } else {
