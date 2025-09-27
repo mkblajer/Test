@@ -58,6 +58,7 @@ jobs:
               
               // check if there's only one reviewer and it's also the author of a commit
               if ((reviewers.size == 1 && [...reviewers][0] && authors.has([...reviewers][0])) || (reviewers.size == 0)) {
+                
                 // check if there are no reviews
                 if (reviewers.size == 0){
                   console.log("This PR is not reviewed.");
