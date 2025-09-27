@@ -55,11 +55,6 @@ jobs:
               // check if there's only one reviewer and it's also the author of a commit
               if ((reviewers.size == 1 && [...reviewers][0] && authors.has([...reviewers][0])) || (reviewers.size == 0)) {
                 
-                // check if there are no reviews
-                if (reviewers.size == 0){
-                  console.log("This PR is not reviewed.");
-                }
-                
                 // Filter out authors of the PR
                 const prAuthor = context.payload.pull_request.user.login;
 
@@ -98,7 +93,11 @@ jobs:
                 }
                 
                 // fail self-reviewed check
-                  core.setFailed("This PR is not reviewed or self-reviewed.");
+                if (reviews.size == 0){
+                  console.log("This PR is not reviewed.");
+                  core.setFailed("This PR is not reviewed");
+                }
+                core.setFailed("This PR is self-reviewed")
                   
               } else {
                 console.log("PR is not self-reviewed.");
