@@ -49,9 +49,11 @@ jobs:
               const authors = new Set(commits.map(c => c.author.login));
   
               // check if there's only one reviewer and it's also the author of a commit
-              if (reviewers.size === 1 && [...reviewers][0] && authors.has([...reviewers][0])) {
-                
-                console.log("This is a self-reviewed PR.");
+              if (reviewers.size < 2 && [...reviewers][0] && authors.has([...reviewers][0])) {
+                // check if there are no reviews
+                if (reviewers.size === 0){
+                  console.log("This PR is not reviewed.");
+                }
                 
                 // Filter out authors of the PR
                 const availableReviewers = reviewerPool.filter(u => !authors.has(u));
@@ -86,7 +88,10 @@ jobs:
                   });
   
                   console.log(`Assigned @${selectedReviewer} for post-merge review.`);
-                  
+
+                  // fail this check
+                  const core = require('@actions/core');
+                  core.setFailed("This PR is improperly reviewed.");
                 }
               } else {
                 console.log("PR is not self-reviewed.");
