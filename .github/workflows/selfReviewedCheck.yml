@@ -25,7 +25,7 @@ jobs:
             if (pr.merged) {
               // List of allowed reviewers
               // format: "login"
-              const reviewerPool = ["mkblajer", "max-golubev", "borlander"];
+              const reviewerPool = ["mkblajer", "max-golubev"];
   
               // labels that are added in case a PR is deemed self-reviewed
               const labelsList = ["self-reviewed"]
@@ -83,7 +83,7 @@ jobs:
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: prNumber,
-                    body: `This is automated message:\nIt seems that this pull request is self-reviewed\n @${selectedReviewer}, please perform a post-merge review`
+                    body: `This is automated message:\nIt seems that this pull request is self-reviewed or not reviewed at all\n @${selectedReviewer}, please perform a post-merge review`
                   });
   
                   // add labels
