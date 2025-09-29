@@ -1,4 +1,4 @@
-name: Self-Reviewed PR Check
+name: Self-Reviewed Check
 
 permissions:
   pull-requests: write
