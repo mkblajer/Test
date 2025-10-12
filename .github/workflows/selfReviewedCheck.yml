@@ -15,11 +15,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Load config
+        id: config
+        run: |
+          CONFIG=$(cat .github/config.json)
+          echo "config=$CONFIG" >> $GITHUB_OUTPUT
+          
       - name: Check for self-reviewed PR
+        env:
+            CONFIG: ${{ steps.config.outputs.config }}
+        
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            // read config from json file
+            const config = JSON.parse(process.env.CONFIG);
+            
             // check if merged
             const pr = context.payload.pull_request;
             if (pr.merged) {
@@ -119,6 +131,7 @@ jobs:
                   
               } else {
                 console.log("PR is not self-reviewed.");
+        
               
               }
             }
