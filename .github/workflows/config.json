@@ -28,7 +28,7 @@
     "_comment": "↑↑This messages will also contain '@assigned_reviewer' ping at the beggining"
 
     "_comment": "↓↓Or this message will be additionaly shown, if NO appropriate reviewer can be designated"
-  "noReviewer": "No appropriate reviewer from the reviewer pool can be assigned"
+  "noReviewer": "No appropriate reviewer from the reviewer pool can be assigned. Backup reviewer will be assigned, if they are designated"
 
     "_comment": "↑↑Optionally, this message can contain '@backup_reviewer' ping at the beggining"
     "_comment": "↑↑Backup reviewer can be designated at the begginging of this file"
