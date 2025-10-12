@@ -35,20 +35,17 @@ jobs:
             // check if merged
             const pr = context.payload.pull_request;
             if (pr.merged) {
-              
               // --------------------------------------------------
-              // List of allowed reviewers
-              // Input: "login"
-              const reviewerPool = ["mkblajer", "max-golubev"];
-  
-              // labels that are added in case a PR is deemed self-reviewed
-              const labelsList = ["self-reviewed"]
+              const reviewerPool = config.reviewerPool;
+              const backupReviewer = config.backupReviewer;
               
-              // message displayed in case the PR is self reviewed
-              const srMessage = `This is automated message:\nIt seems that this pull request is self-reviewed\n`
+              const labelsList = config.labels;
+              
+              const srMessage = config.selfReviewed;
+              const nrMessage = config.notReviewed;
 
-              // message displayed in case the PR is not reviewed
-              const nrMessage = `This is automated message:\nIt seems that this pull request is not reviewed\n`
+              const assignedMessage = config.assignReviewer;
+              const notAssignedMessage = noReviewer;
               
               // --------------------------------------------------
                 
@@ -79,9 +76,54 @@ jobs:
                 const prAuthor = context.payload.pull_request.user.login;
 
                 const availableReviewers = reviewerPool.filter(u => u !== prAuthor && !authors.has(u));
+
   
+                // comment describing the issue
+                if (reviews.size == 0){
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: prNumber,
+                    body: nrMessage
+                  });
+                } else{
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: prNumber,
+                    body: srMessage
+                  });
+                }
+
+                
                 if (availableReviewers.length == 0) {
                   console.log("No eligible reviewers left. Cannot assign automatically.");
+                  
+                  // comment reporting error
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: prNumber,
+                    body: notAssignedMessage
+                  });
+                  
+                  if (backupReviewer != null){
+                    // request backup reviewer
+                    await github.rest.pulls.requestReviewers({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      pull_number: prNumber,
+                      reviewers: [backupReviewer]
+                    });
+                    
+                    // comment instructions
+                    await github.rest.issues.createComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: prNumber,
+                      body: `@${backupReviewer}` + assignedMessage
+                    });
+                  }
                 } else {
                   const selectedReviewer = availableReviewers[Math.floor(Math.random() * availableReviewers.length)];
   
@@ -93,22 +135,13 @@ jobs:
                     reviewers: [selectedReviewer]
                   });
   
-                  // comment describing the issue
-                  if (reviews.size == 0){
+                  // comment instructions
                   await github.rest.issues.createComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: prNumber,
-                    body: nrMessage + `@${selectedReviewer}, please perform a post-merge review`
-                    });
-                  } else{
-                    await github.rest.issues.createComment({
-                      owner: context.repo.owner,
-                      repo: context.repo.repo,
-                      issue_number: prNumber,
-                      body: srMessage + `@${selectedReviewer}, please perform a post-merge review`
-                    });
-                  }
+                    body: `@${selectedReviewer}` + assignedMessage
+                  });
   
                   // add labels
                   await github.rest.issues.addLabels({
@@ -122,7 +155,7 @@ jobs:
                 }
                 
                 // fail self-reviewed check
-                console.log(reviews.size)
+                console.log(`Number of reviews: ${reviews.size}`)
                 if (reviews.size == 0){
                   console.log("This PR is not reviewed.");
                   core.setFailed("This PR is not reviewed");
@@ -131,8 +164,6 @@ jobs:
                   
               } else {
                 console.log("PR is not self-reviewed.");
-        
-              
               }
             }
             
