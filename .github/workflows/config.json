@@ -1,22 +1,22 @@
 {
-"_comment": "↓↓List of labels that will be added to the trigerring pull request",
+// ↓↓List of labels that will be added to the trigerring pull request
 "labels": ["badly-reviewed"],
 
 
 
-"_comment": "↓↓List of users from which the code will try to pick, such that the reviewer isn't also the author of the commits",
+"_comment2": "↓↓List of users from which the code will try to pick, such that the reviewer isn't also the author of the commits",
 "reviewerPool": ["max-golubev", "mkblajer"],
 
 
 
-"_comment": "↓↓Backup reviewer will be assigned to a pull request, if NO reviewer from reviewerPool can be assigned",
+"_comment3": "↓↓Backup reviewer will be assigned to a pull request, if NO reviewer from reviewerPool can be assigned",
 "backupReviewer": "mkblajer",
 
-"_comment": "↑↑This is an optionall setting, if left as 'null' it will not take affect",
+"_comment4": "↑↑This is an optionall setting, if left as 'null' it will not take affect",
 
 
 
-"_comment": "↓↓These messages will be shown in respective situations:",
+"_comment5": "↓↓These messages will be shown in respective situations:",
 "selfReviewed": "This is an automated message:\nIt seems that this pull request is only self-reviewed.",
 "notReviewed": "This is an automated message:\nIt seems that this pull request is not reviewed at all.",
 
