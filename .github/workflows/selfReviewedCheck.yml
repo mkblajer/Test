@@ -78,6 +78,14 @@ jobs:
                 const availableReviewers = reviewerPool.filter(u => u !== prAuthor && !authors.has(u));
 
   
+                // add labels
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  labels: labelsList
+                });
+                  
                 // comment describing the issue
                 if (reviews.size == 0){
                   await github.rest.issues.createComment({
@@ -141,14 +149,6 @@ jobs:
                     repo: context.repo.repo,
                     issue_number: prNumber,
                     body: `@${selectedReviewer}` + assignedMessage
-                  });
-  
-                  // add labels
-                  await github.rest.issues.addLabels({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: prNumber,
-                    labels: labelsList
                   });
   
                   console.log(`Assigned @${selectedReviewer} for post-merge review.`);
