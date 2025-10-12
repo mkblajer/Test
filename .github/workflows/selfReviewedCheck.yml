@@ -87,7 +87,7 @@ jobs:
                 });
                   
                 // comment describing the issue
-                if (reviews.size == undefined){
+                if (reviewers.size == 0){
                   await github.rest.issues.createComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
@@ -156,7 +156,7 @@ jobs:
                 
                 // fail self-reviewed check
                 console.log(`Number of reviews: ${reviews.size}`)
-                if (reviews.size == 0){
+                if (reviewers.size == 0){
                   console.log("This PR is not reviewed.");
                   core.setFailed("This PR is not reviewed");
                 }
