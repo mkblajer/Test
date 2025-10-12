@@ -23,7 +23,7 @@
 
 
 "_comment6": "↓↓This message will be additionaly shown in all situations, if an appropriate reviewer can be designated",
-"assignReviewer": "Please perform a post-merge review",
+"assignReviewer": " Please perform a post-merge review",
 
 "_comment7": "↑↑This messages will also contain '@assigned_reviewer' ping at the beggining",
 
