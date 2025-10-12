@@ -5,12 +5,12 @@
 
 
 "_comment2": "↓↓List of users from which the code will try to pick, such that the reviewer isn't also the author of the commits",
-"reviewerPool": ["max-golubev", "mkblajer"],
+"reviewerPool": ["user_login"],
 
 
 
 "_comment3": "↓↓Backup reviewer will be assigned to a pull request, if NO reviewer from reviewerPool can be assigned",
-"backupReviewer": "mkblajer",
+"backupReviewer": null,
 
 "_comment4": "↑↑This is an optionall setting, if left as 'null' it will not take affect",
 
