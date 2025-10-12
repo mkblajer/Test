@@ -1,36 +1,36 @@
 {
-"_comment1": "↓↓List of labels that will be added to the trigerring pull request"
+"_comment1": "↓↓List of labels that will be added to the trigerring pull request",
 "labels": ["badly-reviewed"],
 
 
 
-"_comment2": "↓↓List of users from which the code will try to pick, such that the reviewer isn't also the author of the commits"
+"_comment2": "↓↓List of users from which the code will try to pick, such that the reviewer isn't also the author of the commits",
 "reviewerPool": ["max-golubev", "mkblajer"],
 
 
 
-"_comment3": "↓↓Backup reviewer will be assigned to a pull request, if NO reviewer from reviewerPool can be assigned"
+"_comment3": "↓↓Backup reviewer will be assigned to a pull request, if NO reviewer from reviewerPool can be assigned",
 "backupReviewer": "mkblajer",
 
-"_comment4": "↑↑This is an optionall setting, if left as 'null' it will not take affect"
+"_comment4": "↑↑This is an optionall setting, if left as 'null' it will not take affect",
 
 
 
-"_comment5": "↓↓These messages will be shown in respective situations:"
+"_comment5": "↓↓These messages will be shown in respective situations:",
 "selfReviewed": "This is an automated message:\nIt seems that this pull request is only self-reviewed.",
 "notReviewed": "This is an automated message:\nIt seems that this pull request is not reviewed at all.",
 
 
 
-"_comment6": "↓↓This message will be additionaly shown in all situations, if an appropriate reviewer can be designated"
+"_comment6": "↓↓This message will be additionaly shown in all situations, if an appropriate reviewer can be designated",
 "assignReviewer": "Please perform a post-merge review",
 
-"_comment7": "↑↑This messages will also contain '@assigned_reviewer' ping at the beggining"
+"_comment7": "↑↑This messages will also contain '@assigned_reviewer' ping at the beggining",
 
 
-"_comment8": "↓↓Alternatively, this message will be additionaly shown, if NO appropriate reviewer can be designated"
+"_comment8": "↓↓Alternatively, this message will be additionaly shown, if NO appropriate reviewer can be designated",
 "noReviewer": "No appropriate reviewer from the reviewer pool can be assigned. Backup reviewer will be assigned, if they are designated",
 
-"_comment9": "↑↑Optionally, '@backup_reviewer' ping will be added if backup reviewer is designated"
-"_comment10": "↑↑Backup reviewer can be designated at the begginging of this file"
+"_comment9": "↑↑Optionally, '@backup_reviewer' ping will be added if backup reviewer is designated",
+"_comment10": "↑↑Backup reviewer can be designated at the begginging of this file",
 }
