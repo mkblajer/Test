@@ -45,7 +45,7 @@ jobs:
               const nrMessage = config.notReviewed;
 
               const assignedMessage = config.assignReviewer;
-              const notAssignedMessage = noReviewer;
+              const notAssignedMessage = config.noReviewer;
               
               // --------------------------------------------------
                 
