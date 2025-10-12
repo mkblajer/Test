@@ -18,7 +18,7 @@ jobs:
       - name: Load config
         id: config
         run: |
-          CONFIG=$(cat .github/workflows/config.json)
+          CONFIG=$(jq -c . .github/workflows/config.json)
           echo "config=$CONFIG" >> $GITHUB_OUTPUT
           
       - name: Check for self-reviewed PR
