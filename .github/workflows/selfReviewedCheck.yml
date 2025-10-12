@@ -87,7 +87,7 @@ jobs:
                 });
                   
                 // comment describing the issue
-                if (reviews.size == 0){
+                if (reviews.size == undefined){
                   await github.rest.issues.createComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
