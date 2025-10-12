@@ -1,0 +1,15 @@
+// --------------------------------------------------
+// List of allowed reviewers
+// Input: "login"
+const reviewerPool = ["mkblajer", "max-golubev"];
+
+// labels that are added in case a PR is deemed self-reviewed
+const labelsList = ["self-reviewed"]
+
+// message displayed in case the PR is self reviewed
+const srMessage = `This is automated message:\nIt seems that this pull request is self-reviewed\n`
+
+// message displayed in case the PR is not reviewed
+const nrMessage = `This is automated message:\nIt seems that this pull request is not reviewed\n`
+
+// --------------------------------------------------
