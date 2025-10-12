@@ -32,5 +32,5 @@
 "noReviewer": "No appropriate reviewer from the reviewer pool can be assigned. Backup reviewer will be assigned, if they are designated",
 
 "_comment9": "↑↑Optionally, '@backup_reviewer' ping will be added if backup reviewer is designated",
-"_comment10": "↑↑Backup reviewer can be designated at the begginging of this file",
+"_comment10": "↑↑Backup reviewer can be designated at the begginging of this file"
 }
