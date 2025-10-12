@@ -1,34 +1,35 @@
 {
         "_comment": "↓↓List of labels that will be added to the trigerring pull request"
-    "labels": ["badly-reviewed"]
+        "labels": ["badly-reviewed"]
 
 
+        
         "_comment": "↓↓List of users from which the code will try to pick, such that the reviewer isn't also the author of the commits"
-    "reviewerPool": ["max-golubev", "mkblajer"]
+        "reviewerPool": ["max-golubev", "mkblajer"]
 
   
   
         "_comment": "↓↓Backup reviewer will be assigned to a pull request, if NO reviewer from reviewerPool can be assigned"
-    "backupReviewer": "mkblajer"
+        "backupReviewer": "mkblajer"
     
         "_comment": "↑↑This is an optionall setting, if left as 'null' it will not take affect"
   
 
   
         "_comment": "↓↓These messages will be shown in respective situations:"
-    "selfReviewed": "This is an automated message:\nIt seems that this pull request is only self-reviewed."
-    "notReviewed": "This is an automated message:\nIt seems that this pull request is not reviewed at all."
+        "selfReviewed": "This is an automated message:\nIt seems that this pull request is only self-reviewed."
+        "notReviewed": "This is an automated message:\nIt seems that this pull request is not reviewed at all."
 
   
   
         "_comment": "↓↓This message will be additionaly shown in all situations, if an appropriate reviewer can be designated"
-    "assignReviewer": "Please perform a post-merge review"
+        "assignReviewer": "Please perform a post-merge review"
   
         "_comment": "↑↑This messages will also contain '@assigned_reviewer' ping at the beggining"
 
     
         "_comment": "↓↓Alternatively, this message will be additionaly shown, if NO appropriate reviewer can be designated"
-    "noReviewer": "No appropriate reviewer from the reviewer pool can be assigned. Backup reviewer will be assigned, if they are designated"
+        "noReviewer": "No appropriate reviewer from the reviewer pool can be assigned. Backup reviewer will be assigned, if they are designated"
 
         "_comment": "↑↑Optionally, '@backup_reviewer' ping will be added if backup reviewer is designated"
         "_comment": "↑↑Backup reviewer can be designated at the begginging of this file"
