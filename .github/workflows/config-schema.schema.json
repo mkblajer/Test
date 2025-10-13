@@ -1,0 +1,39 @@
+{
+  "title": "Pull Request Review Detection Config",
+  "description": "Defines settings for automated detection of improper pull request review.",
+  "type": "object",
+  "properties": {
+  
+    "labels": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of labels that will be added to the triggering pull request."
+    },
+    "reviewerPool": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of users from which the code will try to pick a reviewer, such that the reviewer isn't also the author of the commits."
+    },
+    "backupReviewer": {
+      "type": ["string", "null"],
+      "description": "Backup reviewer that will be assigned if no reviewer from reviewerPool can be assigned. Optional, if left as null - will not be used."
+    },
+    "selfReviewed": {
+      "type": "string",
+      "description": "Message shown when the pull request appears to be self-reviewed."
+    },
+    "notReviewed": {
+      "type": "string",
+      "description": "Message shown when the pull request appears to have no review at all."
+    },
+    "assignReviewer": {
+      "type": "string",
+      "description": "Additional message shown in all situations if an appropriate reviewer can be designated. The message will include an '@assigned_reviewer' mention at the beginning."
+    },
+    "noReviewer": {
+      "type": "string",
+      "description": "Message shown when no appropriate reviewer from the reviewer pool can be assigned. A backup reviewer will be assigned, if one is designated."
+    }
+  },
+  "required": ["labels", "reviewerPool", "selfReviewed", "notReviewed", "assignReviewer", "noReviewer"]
+}
